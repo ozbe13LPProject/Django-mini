@@ -8,3 +8,8 @@
 - ✅ test : 테스트 코드, 리팩터링 테스트 코드 추가(프로덕션 코드 변경 X)
 - ♻️ refactor : 코드 리팩터링
 - 🚑 hotfix : 긴급 수정
+
+# Example
+git add .
+git commit -m "✨feat : Google, Kakao 소셜 로그인 기능 추가"
+git push origin develop
