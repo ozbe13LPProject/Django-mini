@@ -8,13 +8,21 @@ dependencies = [
     "django>=5.2.7",
     "djangorestframework>=3.16.1",
     "djangorestframework-simplejwt>=5.5.1",
-    "drf-spectacular>=0.28.0",
-    "gitmoji>=0.1.0",
-    "psycopg2-binary>=2.9.11",
-    "python-dotenv>=1.1.1",
 ]
 
+
+
 [dependency-groups]
+#개발 환경 (로컬)	uv sync --dev	Base + Dev
+#배포 환경 (Docker)	uv sync --group prod	Base + Prod
+# uv add로 추가
 dev = [
     "ruff>=0.14.0",
+    "drf-spectacular",
+    "python-dotenv",
+]
+# uv add --group prod로 추가
+prod = [
+    "psycopg2-binary",
+    "gunicorn",
 ]
