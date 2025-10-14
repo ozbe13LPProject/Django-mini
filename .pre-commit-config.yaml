@@ -1,0 +1,13 @@
+#차례대로 실행
+#pre-commit install
+#pre-commit autoupdate
+#pre-commit run --all-files
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.14.0
+  hooks:
+    - id: ruff
+      args: [ --fix ]
+
+    - id: ruff-format
+
