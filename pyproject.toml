@@ -1,12 +1,33 @@
 [project]
-name = "django-mini"
+name = "landingpage-project"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
     "django>=5.2.7",
-    "djangorestframework>=3.16.1",
-    "psycopg2-binary>=2.9.11",
-    "python-dotenv>=1.1.1",
 ]
+
+[dependency-groups]
+dev = [
+    "django>=5.2.7",
+    "djangorestframework>=3.16.1",
+    "drf-spectacular>=0.28.0",
+    "ruff>=0.14.0",
+]
+prod = [
+    "django>=5.2.7",
+    "djangorestframework>=3.16.1",
+    "gunicorn>=23.0.0",
+    "psycopg2-binary>=2.9.11",
+]
+
+[tool.ruff]
+src = ["."]
+exclude = [".venv", "migrations"]
+target-version = "py312"
+fix = true
+lint.select = ["E", "F", "I"]
+lint.ignore = ["E501"]
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
