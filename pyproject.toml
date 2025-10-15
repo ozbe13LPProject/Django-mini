@@ -1,33 +1,28 @@
 [project]
-name = "landingpage-project"
+name = "django-mini"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "django>=5.2.7",
+    "djangorestframework>=3.16.1",
+    "djangorestframework-simplejwt>=5.5.1",
 ]
+
+
 
 [dependency-groups]
+#개발 환경 (로컬)	uv sync --dev	Base + Dev
+#배포 환경 (Docker)	uv sync --group prod	Base + Prod
+# uv add로 추가
 dev = [
-    "django>=5.2.7",
-    "djangorestframework>=3.16.1",
-    "drf-spectacular>=0.28.0",
     "ruff>=0.14.0",
+    "drf-spectacular",
+    "python-dotenv",
 ]
+# uv add --group prod로 추가
 prod = [
-    "django>=5.2.7",
-    "djangorestframework>=3.16.1",
-    "gunicorn>=23.0.0",
-    "psycopg2-binary>=2.9.11",
+    "psycopg2-binary",
+    "gunicorn",
 ]
-
-[tool.ruff]
-src = ["."]
-exclude = [".venv", "migrations"]
-target-version = "py312"
-fix = true
-lint.select = ["E", "F", "I"]
-lint.ignore = ["E501"]
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401"]
