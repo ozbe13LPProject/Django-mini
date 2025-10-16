@@ -3,10 +3,6 @@ from .models import User, Account
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """
-    사용자 회원가입용 Serializer
-    """
-
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -14,10 +10,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "email", "name", "nickname", "phone", "password"]
 
     def create(self, validated_data):
-        # 비밀번호는 암호화해서 저장
         user = User.objects.create_user(
             email=validated_data["email"],
-            username=validated_data["email"],  # username은 email과 동일하게
+            username=validated_data["email"],
             name=validated_data["name"],
             nickname=validated_data["nickname"],
             phone=validated_data["phone"],
@@ -27,10 +22,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AccountSerializer(serializers.ModelSerializer):
-    """
-    계좌 생성 및 조회용 Serializer
-    """
-
     user_email = serializers.ReadOnlyField(source="user.email")
 
     class Meta:
@@ -44,4 +35,4 @@ class AccountSerializer(serializers.ModelSerializer):
             "account_type",
             "balance",
         ]
-        read_only_fields = ["user"]  # user는 자동으로 설정되므로 읽기 전용
+        read_only_fields = ["user"]
