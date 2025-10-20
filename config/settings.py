@@ -35,8 +35,8 @@ DJANGO_APPS = [
 ]
 
 OWN_APPS = [
-    "accounts.apps.AccountsConfig",
-    # 'accounts',
+    "apps.accounts.apps.AccountsConfig"
+    # 'apps.accounts',
 ]
 
 THIRD_PARTY_APPS = [
@@ -149,4 +149,10 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
+# 커스텀 User 모델
 AUTH_USER_MODEL = "accounts.User"
+
+# 로그인 관련 설정
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "accounts:account_list"
+LOGOUT_REDIRECT_URL = "accounts:login_view"

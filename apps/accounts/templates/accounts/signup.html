@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}회원가입 - 가계부{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card-custom">
+            <h1 class="mb-4 text-center" style="color: #667eea;">회원가입</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                {% include 'include/form.html' %}
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary-custom btn-lg">회원가입</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-3">
+                <p class="text-muted">이미 계정이 있으신가요?
+                    <a href="{% url 'accounts:login' %}">로그인</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
