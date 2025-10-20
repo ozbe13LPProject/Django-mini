@@ -23,6 +23,7 @@ dev = [
     "ruff>=0.14.0",
     "drf-spectacular",
     "pre-commit>=4.3.0",
+    "python-dotenv",
 ]
 # uv add --group prod로 추가
 prod = [
