@@ -33,8 +33,12 @@
                             {{ account.balance|floatformat:0 }}원
                         </td>
                         <td>
-                            <a href="{% url 'accounts:account_update' account.id %}" class="btn btn-sm btn-outline-primary">수정</a>
-                            <form action="{% url 'accounts:account_delete' account.id %}" method="post" class="d-inline"
+                            <a href="{% url 'accounts:transaction_list' account.id %}"
+                               class="btn btn-sm btn-info">거래내역</a>
+                            <a href="{% url 'accounts:account_update' account.id %}"
+                               class="btn btn-sm btn-outline-primary">수정</a>
+                            <form action="{% url 'accounts:account_delete' account.id %}"
+                                  method="post" class="d-inline"
                                   onsubmit="return confirm('정말 삭제하시겠습니까?');">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>

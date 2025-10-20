@@ -50,8 +50,6 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserLoginForm(forms.Form):
-    """Template: 로그인 폼"""
-
     email = forms.EmailField(
         label="이메일", widget=forms.EmailInput(attrs={"class": "form-control"})
     )
@@ -114,6 +112,7 @@ class TransactionForm(forms.ModelForm):
             "description": forms.TextInput(
                 attrs={
                     "class": "form-control",
+                    "rows": 3,
                     "placeholder": "거래 내용 입력 (선택사항)",
                 }
             ),
