@@ -2,12 +2,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 
-# .env 파일 로드
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -35,14 +30,14 @@ DJANGO_APPS = [
 ]
 
 OWN_APPS = [
-    "apps.accounts.apps.AccountsConfig"
-    # 'apps.accounts',
+    "apps.accounts.apps.AccountsConfig",
 ]
 
 THIRD_PARTY_APPS = [
-    "drf_spectacular",
     "rest_framework",
     "rest_framework_simplejwt",
+    "drf_spectacular",
+    "apps",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + OWN_APPS + THIRD_PARTY_APPS
@@ -80,7 +75,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -91,10 +85,6 @@ DATABASES = {
         "PORT": "5432",
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -123,15 +113,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -155,4 +138,4 @@ AUTH_USER_MODEL = "accounts.User"
 # 로그인 관련 설정
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "accounts:account_list"
-LOGOUT_REDIRECT_URL = "accounts:login_view"
+LOGOUT_REDIRECT_URL = "accounts:login"

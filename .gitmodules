@@ -1,0 +1,3 @@
+[submodule "Django-mini"]
+	path = Django-mini
+	url = https://github.com/ozbe13LPProject/Django-mini.git
