@@ -4,7 +4,7 @@ from .models import Account
 def get_accounts_by_user(user, filters=None):
     queryset = Account.objects.filter(user=user)
     if filters:
-        if 'bank_name' in filters:
+        if 'bank_name' in  filters:
             queryset = queryset.filter(bank_name__icontains=filters['bank_name'])
         if 'account_number' in filters:
             queryset = queryset.filter(account_number__icontains=filters['account_number'])
