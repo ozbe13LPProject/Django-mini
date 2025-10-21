@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}계좌 수정{% else %}계좌 추가{% endif %} - 가계부{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card-custom">
+            <h2 class="mb-4 text-center" style="color: #667eea;">
+                {% if form.instance.pk %}
+                    📝 계좌 정보 수정
+                {% else %}
+                    ➕ 새 계좌 추가
+                {% endif %}
+            </h2>
+            
+            <form method="POST">
+                {% csrf_token %}
+                {% include 'include/form.html' %}
+                
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary-custom">
+                        {% if form.instance.pk %}수정하기{% else %}추가하기{% endif %}
+                    </button>
+                    <a href="{% url 'accounts:account_list' %}" class="btn btn-secondary ms-2">취소</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

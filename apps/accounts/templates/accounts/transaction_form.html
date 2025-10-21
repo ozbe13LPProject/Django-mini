@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if transaction %}거래 수정{% else %}거래 추가{% endif %} - 가계부{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card-custom">
+            <h2 class="mb-4 text-center" style="color: #667eea;">
+                {% if transaction %}
+                    📝 거래 내역 수정
+                {% else %}
+                    ➕ 거래 추가
+                {% endif %}
+            </h2>
+
+            <div class="alert alert-info mb-4">
+                <strong>계좌:</strong> {{ account.get_bank_code_display }} | {{ account.account_number }}<br>
+                <strong>현재 잔액:</strong> {{ account.balance|floatformat:0 }}원
+            </div>
+            
+            <form method="POST">
+                {% csrf_token %}
+                {% include 'include/form.html' %}
+                
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary-custom">
+                        {% if transaction %}수정하기{% else %}추가하기{% endif %}
+                    </button>
+                    <a href="{% url 'accounts:transaction_list' account.pk %}" class="btn btn-secondary ms-2">취소</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

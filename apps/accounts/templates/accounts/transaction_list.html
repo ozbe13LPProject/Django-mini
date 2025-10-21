@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}거래 내역 - {{ account.account_number }}{% endblock %}
+
+{% block content %}
+<div class="card-custom">
+    <!-- 계좌 정보 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 style="color: #667eea;">💳 거래 내역</h2>
+            <p class="text-muted mb-0">
+                {{ account.get_bank_code_display }} | {{ account.account_number }}
+            </p>
+            <p class="mb-0">
+                <strong>현재 잔액:</strong> 
+                <span style="color: #667eea; font-size: 1.2rem; font-weight: bold;">
+                    {{ account.balance|floatformat:0 }}원
+                </span>
+            </p>
+        </div>
+        <div>
+            <a href="{% url 'accounts:transaction_create' account.pk %}" class="btn btn-primary-custom">
+                + 거래 추가
+            </a>
+            <a href="{% url 'accounts:account_list' %}" class="btn btn-secondary">
+                계좌 목록
+            </a>
+        </div>
+    </div>
+
+    <!-- 필터 -->
+    <form method="GET" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label class="form-label">거래 유형</label>
+            <select name="type" class="form-control">
+                <option value="">전체</option>
+                <option value="DEPOSIT" {% if filter_type == 'DEPOSIT' %}selected{% endif %}>입금</option>
+                <option value="WITHDRAW" {% if filter_type == 'WITHDRAW' %}selected{% endif %}>출금</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">시작 날짜</label>
+            <input type="date" name="date_from" class="form-control" value="{{ filter_date_from }}">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">종료 날짜</label>
+            <input type="date" name="date_to" class="form-control" value="{{ filter_date_to }}">
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">검색</button>
+            <a href="{% url 'accounts:transaction_list' account.pk %}" class="btn btn-outline-secondary">초기화</a>
+        </div>
+    </form>
+
+    <!-- 통계 -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="alert alert-success">
+                <strong>총 입금:</strong> {{ total_deposit|floatformat:0 }}원
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="alert alert-danger">
+                <strong>총 출금:</strong> {{ total_withdraw|floatformat:0 }}원
+            </div>
+        </div>
+    </div>
+
+    <!-- 거래 내역 테이블 -->
+    {% if transactions %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>날짜/시간</th>
+                        <th>거래 유형</th>
+                        <th>거래 방법</th>
+                        <th>금액</th>
+                        <th>거래 후 잔액</th>
+                        <th>내용</th>
+                        {% if user.is_admin %}
+                        <th>관리</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.transaction_at|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if transaction.transaction_type == 'DEPOSIT' %}
+                                <span class="badge bg-success">입금</span>
+                            {% else %}
+                                <span class="badge bg-danger">출금</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transaction.transaction_method %}
+                                {{ transaction.get_transaction_method_display }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transaction.transaction_type == 'DEPOSIT' %}
+                                <span style="color: #28a745; font-weight: bold;">+{{ transaction.amount|floatformat:0 }}원</span>
+                            {% else %}
+                                <span style="color: #dc3545; font-weight: bold;">-{{ transaction.amount|floatformat:0 }}원</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ transaction.balance_after|floatformat:0 }}원</td>
+                        <td>{{ transaction.description|default:"-" }}</td>
+                        {% if user.is_admin %}
+                        <td>
+                            <a href="{% url 'accounts:transaction_update' account.pk transaction.pk %}"
+                               class="btn btn-sm btn-outline-primary">수정</a>
+                            <form action="{% url 'accounts:transaction_delete' account.pk transaction.pk %}"
+                                  method="post" class="d-inline"
+                                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger">삭제</button>
+                            </form>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <p class="text-muted mb-4">거래 내역이 없습니다.</p>
+            <a href="{% url 'accounts:transaction_create' account.pk %}" class="btn btn-primary-custom">
+                첫 거래 추가하기
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
