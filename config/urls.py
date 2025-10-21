@@ -25,7 +25,6 @@ from drf_spectacular.views import (
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.http import HttpResponse
 
-# HEAD의 accounts views와 develop의 home 뷰를 모두 가져옵니다.
 from apps.accounts.views import (
     RegisterView,
     LogoutView,
@@ -34,13 +33,10 @@ from apps.accounts.views import (
 )
 
 
-def home(request):
-    return HttpResponse("Welcome to the Bank API")
-
+from apps.accounts.views import login_view
 
 urlpatterns = [
-    # Develop의 기본 홈 뷰 유지
-    path("", home),
+    path("", login_view, name="root_login"),
     # Admin
     path("admin/", admin.site.urls),
     # ============================================
